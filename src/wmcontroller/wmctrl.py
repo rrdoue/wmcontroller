@@ -18,7 +18,6 @@ import requests
 import sys
 
 Debug = None  # None or True
-status_code = None  # allows for workflow processing in the status action
 
 env = environs.Env()  # to be added for user names and passwords
 
@@ -32,14 +31,15 @@ def component_status(server, component, action):
         'expand': 'true',
     }
 
-    if server:
+    if component == 'integration server':
         try:
             response = requests.get(
-                f'http://{server}:5555/admin/package',
+                f'https://{server}:5543/admin/package',
                 params=params,
                 headers=headers,
                 auth=('', ''),
                 timeout=10,
+                verify=False  # note this generates a warning, consider an env setting
             )
         except requests.ConnectionError as e:
             if Debug:
@@ -66,7 +66,7 @@ def component_status(server, component, action):
     if response.status_code == 200:  # trying multiple response options
         return (
             response.status_code,
-            f'The {component} is up and responding as expected.',
+            f'The {component} is up and responding as expected.'
         )
 
 
