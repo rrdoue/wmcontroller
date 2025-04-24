@@ -8,7 +8,7 @@ the user for input based on a pre-configured set of menus based on the webMethod
 environment, on one to many servers.
 Inputs: Two forms, three text-based values consisting of server name, component or
 application, action.  If run without all inputs, the application prompts the user for
-using menus that must be configured in this file prior to use.
+input using menus that must be configured in the accompanying menu.py file prior to use.
 Outputs: Results of the action, such as a status code (if available), and descriptive
 text.
 """

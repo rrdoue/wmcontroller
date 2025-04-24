@@ -5,8 +5,7 @@ Description:  Module that checks status or starts, stops, and restarts webMethod
 component applications.  The module can be run with direct inputs, or run called by
 other Python objects.
 Inputs: Three text-based values consisting of server name, component or application,
-and action.  If run without all inputs, the application prompts the user for
-using menus that must be configured in this file prior to use.
+and action.
 Outputs: Results of the action, such as a status code (if available) or one-word response,
 and a more descriptive statement.
 """
@@ -18,6 +17,7 @@ import requests
 import sys
 
 Debug = None  # None or True
+status_code = None  # allows the TypeError below to be caught and managed successfully with the else clause
 
 env = environs.Env()  # to be added for user names and passwords
 
@@ -39,7 +39,7 @@ def component_status(server, component, action):
                 headers=headers,
                 auth=('', ''),
                 timeout=10,
-                verify=False  # note this generates a warning, consider an env setting
+                verify=False,  # note this generates a warning, consider an env setting
             )
         except requests.ConnectionError as e:
             if Debug:
@@ -66,7 +66,7 @@ def component_status(server, component, action):
     if response.status_code == 200:  # trying multiple response options
         return (
             response.status_code,
-            f'The {component} is up and responding as expected.'
+            f'The {component} is up and responding as expected.',
         )
 
 
@@ -106,11 +106,15 @@ if __name__ == '__main__':
 
         if status_code:
             print(f'\nStatus Code: {status_code}, {status_text}\n')
+            exit(0)
         else:
+            # This else clause accommodates a specific login failure case used with the TypeError
+            # exception above. status_code must be initially set to None for this to execute properly.
             print(
                 f'Unexpected return value(s) from {command_line_args.action}, the server appears to be running, '
-                f'but there is another problem (for example, login failure).\n'
+                f'but there is another problem (for example, a login failure).\n'
             )
+            exit(1)
     elif command_line_args.action == 'stop':
         stop_response = component_stop(
             command_line_args.server,
