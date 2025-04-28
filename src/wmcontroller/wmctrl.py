@@ -14,6 +14,7 @@ import argparse
 import environs
 import json
 import requests
+import wmrmsrvr
 import sys
 
 Debug = None  # None or True
@@ -71,7 +72,9 @@ def component_status(server, component, action):
 
 
 def component_stop(server, component, action):
-    return f'The action `{action}` for `{component}` is not yet implemented.'
+    if component == 'integration server':
+        fabric_summary, fabric_response = wmrmsrvr.shutdown_remote_is(server)
+    return fabric_summary, fabric_response
 
 
 def component_start(server, component, action):
@@ -116,12 +119,12 @@ if __name__ == '__main__':
             )
             exit(1)
     elif command_line_args.action == 'stop':
-        stop_response = component_stop(
+        stop_summary, stop_response = component_stop(
             command_line_args.server,
             command_line_args.component,
             command_line_args.action,
         )
-        print(f'\n{stop_response}\n')
+        print(f'Result: \n{stop_response}\n{stop_summary}\n')
     elif command_line_args.action == 'restart':
         restart_response = component_restart(
             command_line_args.server,
