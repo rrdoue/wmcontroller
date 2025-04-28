@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 
 """
-Description:  Module that checks status or starts, stops, and restarts webMethods
-component applications.  The module can be run with direct inputs, or run called by
-other Python objects.
+Description:  Module that allows one to check status and starts, stops, or restarts
+webMethods component applications.  The module can be run with direct inputs, or run
+by calling other Python objects, such as a simple text-based user interface.
 Inputs: Three text-based values consisting of server name, component or application,
 and action.
 Outputs: Results of the action, such as a status code (if available) or one-word response,
