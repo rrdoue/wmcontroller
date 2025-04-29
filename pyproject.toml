@@ -18,5 +18,5 @@ dev = [
 [[tool.uv.index]]
 name = "test_pypi"
 url = "https://test.pypi.org/simple/"
-publish-url = "https://test.pypi.org/legacy"
+publish-url = "https://test.pypi.org/legacy/"
 explicit = true
