@@ -13,7 +13,7 @@ def shutdown_remote_is(server):
         # with conn.cd('/Applications/wMServiceDesigner/IntegrationServer/'):
         sudopass = Responder(
             pattern=r'Password:',
-            response='eshqE7yd\n',
+            response='',
         )
         result = conn.run(
             'cd /Applications/wMServiceDesigner/IntegrationServer/bin ; sudo '
