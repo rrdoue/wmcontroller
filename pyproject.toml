@@ -1,11 +1,12 @@
 [project]
 name = "wmcontroller"
 version = "0.1.0"
-description = "Add your description here"
+description = "Module that allows one to check status and starts, stops, or restarts webMethods component applications.  The module can be run with direct inputs, or run by calling other Python objects, such as a simple text-based user interface."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
     "environs>=14.1.1",
+    "fabric2>=3.2.2",
     "requests>=2.32.3",
 ]
 
@@ -13,3 +14,9 @@ dependencies = [
 dev = [
     "pytest>=8.3.5",
 ]
+
+[[tool.uv.index]]
+name = "test_pypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
