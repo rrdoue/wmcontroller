@@ -1,6 +1,6 @@
 [project]
 name = "wmcontroller"
-version = "0.1.0"
+version = "0.1.4"
 description = "Module that allows one to check status and starts, stops, or restarts webMethods component applications.  The module can be run with direct inputs, or run by calling other Python objects, such as a simple text-based user interface."
 readme = "README.md"
 requires-python = ">=3.10"
