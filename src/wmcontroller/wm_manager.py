@@ -16,6 +16,7 @@ text.
 import argparse
 import menu
 import wmctrl
+import wmrmsrvr
 
 Debug = None  # None or True
 
@@ -73,11 +74,16 @@ else:
     )
     if confirm == 'y' or confirm == 'yes':
         print(f'\nYou responded y (yes), proceeding ... ')
-        status_code, status_text = wmctrl.component_status(
-            args.server, args.component, args.action
-        )
-        print(f'\nStatus code: {status_code}. {status_text}\n')
-        exit(0)
+        if args.component == 'integration server' and args.action == 'status':
+            status_code, status_text = wmctrl.component_status(
+                args.server, args.component, args.action
+            )
+            print(f'\nStatus code: {status_code}. {status_text}\n')
+            exit(0)
+        elif args.component == 'integration server' and args.action == 'stop':
+            stop_summary, stop_response = wmrmsrvr.shutdown_remote_is(args.server)
+            print(f'Result: \n{stop_response}\n{stop_summary}\n')
+            exit(0)
     elif confirm == 'n' or reconfirm == 'no':
         print(f'\nYou responded n (no), exiting.\n')
         exit(0)
@@ -86,9 +92,16 @@ if confirm == 'y' or confirm == 'yes':
     print(f'You responded y (yes).\n')
     reconfirm = input('Proceed? y or n: ')
     if reconfirm == 'y' or reconfirm == 'yes':
-        status_code, status_text = wmctrl.component_status(server, component, action)
-        print(f'\nStatus code: {status_code}. {status_text}\n')
-        exit(0)
+        if component == 'integration server' and action == 'status':
+            status_code, status_text = wmctrl.component_status(server, component, action)
+            print(f'\nStatus code: {status_code}. {status_text}\n')
+            exit(0)
+        elif component == 'integration server' and action == 'stop':
+            if Debug:
+                print('In the stop action if statement.\n')
+            stop_summary, stop_response = wmrmsrvr.shutdown_remote_is(server)
+            print(f'Result: \n{stop_response}\n{stop_summary}\n')
+            exit(0)
     elif reconfirm == 'n' or reconfirm == 'no':
         print(f'\nYou responded n (no), exiting.\n')
         exit(0)
