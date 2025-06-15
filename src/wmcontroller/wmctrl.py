@@ -11,16 +11,24 @@ and a more descriptive statement.
 """
 
 import argparse
-import environs
+from environs import env
 import json
 import requests
 import wmrmsrvr
 import sys
 
-Debug = None  # None or True
+
 status_code = None  # allows the TypeError below to be caught and managed successfully with the else clause
 
-env = environs.Env()  # to be added for user names and passwords
+# This reads the .env file in the current directory
+env.read_env()
+
+DEBUG = env.bool('DEBUG')
+PROTOCOL = env.str('PROTOCOL')
+PORT = env.str('PORT')
+AUTH_USER = env.str('AUTH_USER')
+AUTH_PASSWD = env.str('AUTH_PASSWD')
+VERIFY_SSL_CERTIFICATE = env.bool('VERIFY_SSL_CERTIFICATE')
 
 
 def component_status(server, component, action):
@@ -35,15 +43,15 @@ def component_status(server, component, action):
     if component == 'integration server':
         try:
             response = requests.get(
-                f'https://{server}:5543/admin/package',
+                f'{PROTOCOL}://{server}:{PORT}/admin/package',
                 params=params,
                 headers=headers,
-                auth=('', ''),
+                auth=(AUTH_USER, AUTH_PASSWD),
                 timeout=10,
-                verify=False,  # note this generates a warning, consider an env setting
+                verify=VERIFY_SSL_CERTIFICATE,  # note this generates a warning
             )
         except requests.ConnectionError as e:
-            if Debug:
+            if DEBUG:
                 print(f'\nType: {type(e)}, {e}\n')
             if 'NewConnectionError' in str(e):
                 print(
@@ -57,7 +65,7 @@ def component_status(server, component, action):
                 )
             exit(1)
 
-    if Debug:
+    if DEBUG:
         try:
             print(f'{response.json()}\n')
             print(f'Server name is {server}, Status code: {response.status_code}.\n')
