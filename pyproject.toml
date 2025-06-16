@@ -1,7 +1,7 @@
 [project]
 name = "wmcontroller"
-version = "0.1.6"
-description = "Module that allows one to check status and starts, stops, or restarts webMethods component applications.  The module can be run with direct inputs, or run by calling other Python objects, such as a simple text-based user interface.  This version number and related build files replace the wmcontroller-0.1.2 build files.  In the event of a disaster recovery or other problem, an organization running the wmcontroller-0.1.2 version can replace that build with this build and maintain compatibility."
+version = "0.1.7"
+description = "Module that allows one to check status and starts, stops, or restarts webMethods component applications.  The module can be run with direct inputs, or run by calling other Python objects, such as a simple text-based user interface. This version number and related build files replace the wmcontroller-0.1.3 build files.  In the event of a disaster recovery or other problem, an organization running the wmcontroller-0.1.3 version can replace that build with this build and maintain compatibility."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
