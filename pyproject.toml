@@ -15,6 +15,13 @@ dev = [
     "pytest>=8.3.5",
 ]
 
+[build-system]
+requires = ["uv>=0.7"] # Specify uv as the build backend
+build-backend = "uv"
+
+[tool.uv.build-backend.source-include]
+source-include = ["src/wmcontroller/env.example"] # Include env files in source distribution
+
 [[tool.uv.index]]
 name = "test_pypi"
 url = "https://test.pypi.org/simple/"
