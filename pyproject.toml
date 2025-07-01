@@ -16,11 +16,8 @@ dev = [
 ]
 
 [build-system]
-requires = ["uv>=0.7"] # Specify uv as the build backend
-build-backend = "uv"
-
-[tool.uv.build-backend.source-include]
-source-include = ["src/wmcontroller/env.example"] # Include env files in source distribution
+requires = ["uv_build>=0.7.17,<0.8.0"]
+build-backend = "uv_build"
 
 [[tool.uv.index]]
 name = "test_pypi"
